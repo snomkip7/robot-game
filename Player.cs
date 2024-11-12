@@ -1,15 +1,21 @@
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
 
-    private CharacterController player;
+    //private CharacterController player;
+    private Rigidbody player;
     public GameObject cam;
-    public Vector3 gravity;
+    //public Vector3 gravity;
     public Vector3 camOffset; // target position for camera
     public Quaternion camRotation; // target rotation for camera
-    private float speed = 1; // temp
-    private bool cursorLocked = true;
+    private float speed = 10; // temp
+    private bool cursorLocked = false;
+    private float camSpeed = 10; // sensitivity
+    private float movementSnapping = .7f; // for the lerp in velocity
+    private Vector3 camCurrentOffset;
     /* public Body body; // need to assign this & create class
      * public Legs legs; // need to assign this & create class
      * public Arm right; // need to assign this & create class
@@ -17,14 +23,15 @@ public class Player : MonoBehaviour
      */
     void Start()
     {
-        player = GetComponent<CharacterController>();
-        gravity = Physics.gravity; // need to figure out gravity eventually
+        //player = GetComponent<CharacterController>();
+        player = GetComponent<Rigidbody>();
+        //gravity = Physics.gravity; // need to figure out gravity eventually
         camOffset = cam.transform.position;
-        //camRotation = cam.transform.r
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         if (Input.GetKeyDown(KeyCode.Escape)) // toggling locked mode on cursor with escape key **open pause menu**
@@ -43,18 +50,39 @@ public class Player : MonoBehaviour
                 // close pause menu
             }
         }
-        if (!cursorLocked)
+
+        if (cursorLocked)
+        {
+            cam.transform.RotateAround(transform.position, Vector3.up, Input.GetAxis("Mouse X") * camSpeed);
+            cam.transform.RotateAround(transform.position, cam.transform.right, Input.GetAxis("Mouse Y") * -camSpeed);
+
+        }
+        else
         {
             return;
         }
 
+        camCurrentOffset = cam.transform.position - transform.position;
 
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), player.velocity.y, Input.GetAxis("Vertical"));
         movement.Normalize();
         movement.x *= speed;
-        movement.y *= speed;
+        movement.z *= speed;
 
-        if (player.isGrounded)
+        player.velocity = Vector3.Lerp(player.velocity, movement, movementSnapping);
+
+        if (!Physics.Raycast(transform.position, Vector3.down, .1f)){ // gravity
+            player.AddForce(Physics.gravity, ForceMode.Acceleration);
+            print("gravity moment");
+        }
+        else
+        {
+            player.velocity = new Vector3(player.velocity.x, 0, player.velocity.z);
+        }
+        Debug.DrawRay(transform.position, Vector3.down * .1f, Color.yellow);
+        print(player.velocity);
+
+        /*if (player.isGrounded)
         {
             //read for jump input
         }
@@ -63,14 +91,18 @@ public class Player : MonoBehaviour
             //movement += gravity;
         }
         //print(movement);
-        player.Move(movement);
+        player.Move(movement);*/
 
+
+
+    }
+
+    private void LateUpdate()
+    {
         if (cursorLocked)
         {
-            cam.transform.position = transform.position + camOffset;
-            cam.transform.RotateAround(transform.position, Vector3.up, 0);
-            //cam.transform.position = Vector3.MoveTowards(cam.transform.position, transform.position, speed);
+            cam.transform.position = transform.position + camCurrentOffset;
+            //raycast from origin point to camera location, bring it closer as needed, if ray doesn't hit anything then bring back to original position
         }
-
     }
 }

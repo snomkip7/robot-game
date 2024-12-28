@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MechLegs : Legs
 {
-	private float speed = 10; // temp
+	private float speed = 30; // temp
 	private float movementSnapping = .95f; // for the lerp in velocity
 	private float rotationSpeed = 10f; // speed of rotating to velocity
-	private Rigidbody legs;
+	public Rigidbody legs;
 	private Player player;
 
 
@@ -39,7 +39,10 @@ public class MechLegs : Legs
 		Quaternion newone = Quaternion.Euler(new Vector3(0, rotv3.y, 0));*/
 		movement = Quaternion.Euler(new Vector3(0, player.camLastRotation.eulerAngles.y, 0)) * movement;
 		//rotates movement by the camera's rotation
-		legs.velocity = Vector3.Lerp(legs.velocity, movement, movementSnapping);
+		if (player.canWalk)
+		{
+            legs.velocity = Vector3.Lerp(legs.velocity, movement, movementSnapping);
+        }
 
 		//rotate to velocity point
 		if (Mathf.Abs(legs.velocity.x)>.05f && Mathf.Abs(legs.velocity.z) > .05f)
@@ -47,11 +50,10 @@ public class MechLegs : Legs
 			Quaternion targetRotation = Quaternion.LookRotation(legs.velocity, Vector3.up);
 			targetRotation = Quaternion.Euler(new Vector3(0, targetRotation.eulerAngles.y, 0));
 			//print(targetRotation.eulerAngles);
-			legs.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+			legs.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
 		}
-		
 
-	}
+    }
 
     public override void jump()
     {

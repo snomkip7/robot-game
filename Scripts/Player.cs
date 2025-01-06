@@ -38,10 +38,23 @@ public class Player : MonoBehaviour
 		//gravity = Physics.gravity; // need to figure out gravity eventually
 		camOffset = cam.transform.position;
 		camCurrentOffset = camOffset;
-		legs = GetComponentInChildren<Legs>();
-		body = GetComponentInChildren<Body>();
-		//leftArm = 
 		//Cursor.lockState = CursorLockMode.Locked;
+
+		string leftArmType = "laserArm";
+		string rightArmType = "swordArm";
+		string legType = "mechLegs";
+		string bodyType = "rocketDash";
+
+		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
+		leftArm.init();
+
+		rightArm = (Instantiate(Resources.Load(rightArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
+		rightArm.init();
+
+		legs = (Instantiate(Resources.Load(legType, typeof(GameObject)), transform) as GameObject).GetComponent<Legs>();
+		legs.init(this);
+
+		body = (Instantiate(Resources.Load(bodyType, typeof(GameObject)), transform) as GameObject).GetComponent<Body>();
 		body.init(this);
 	}
 
@@ -143,6 +156,11 @@ public class Player : MonoBehaviour
 			body.special();
 		}
 		
+		if (Input.GetKey(KeyCode.KeypadEnter)) // REMOVE THIS ***************************************************************************
+		{
+			body.onCooldown = false;
+		}
+
 		/*Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), player.velocity.y, Input.GetAxis("Vertical"));
 		print("movement not normal: " + movement);
 		movement.Normalize();

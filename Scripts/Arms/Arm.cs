@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Arm : MonoBehaviour
 {
-    public bool attacking = false;
-    public abstract void attack();
+	public bool attacking = false;
+
+	public abstract void init();
+	public abstract void attack();
 }

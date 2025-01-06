@@ -20,34 +20,34 @@ public class ChargeLaser : Body
 	{
 		body = player.player;
 		chargeLaser = transform.GetChild(0).gameObject;
-        defaultLaserLength = chargeLaser.transform.localScale.z * transform.localScale.z;
-        chargeLaser.SetActive(false);
+		defaultLaserLength = chargeLaser.transform.localScale.z * transform.localScale.z;
+		chargeLaser.SetActive(false);
 	}
 
-    public void FixedUpdate()
-    {
+	public void FixedUpdate()
+	{
 		chargeLaser.transform.position = transform.position;
 		if (shooting)
 		{
-            Ray ray = new Ray(body.transform.position + rayOffset, body.transform.forward);
+			Ray ray = new Ray(body.transform.position + rayOffset, body.transform.forward);
 
-            RaycastHit hit = new();
-            bool hitSmth = Physics.Raycast(ray, out hit, maxLength, layermask);
+			RaycastHit hit = new();
+			bool hitSmth = Physics.Raycast(ray, out hit, maxLength, layermask);
 
-            float scaleValue;
-            if (hitSmth)
-            {
-                scaleValue = hit.distance / defaultLaserLength;
-            }
-            else
-            {
-                scaleValue = maxLength;
-            }
+			float scaleValue;
+			if (hitSmth)
+			{
+				scaleValue = hit.distance / defaultLaserLength;
+			}
+			else
+			{
+				scaleValue = maxLength;
+			}
 
-            chargeLaser.transform.localScale = new Vector3(1f, 1f, scaleValue);
+			chargeLaser.transform.localScale = new Vector3(1f, 1f, scaleValue);
 
-            chargeLaser.transform.rotation = body.transform.rotation;
-        }
+			chargeLaser.transform.rotation = body.transform.rotation;
+		}
 		if (onCooldown)
 		{
 			timer -= Time.fixedDeltaTime;
@@ -64,28 +64,28 @@ public class ChargeLaser : Body
 				print("laser ready");
 			}
 		}
-    }
+	}
 
-    public override void special()
+	public override void special()
 	{
 		shooting = true;
 		onCooldown = true;
 		timer = cooldown;
 		body.gameObject.GetComponent<Player>().rotateSpeed = 1f;
-        chargeLaser.SetActive(true);
+		chargeLaser.SetActive(true);
 		print("laser started");
 
-        Ray ray = new Ray(body.transform.position + rayOffset, body.transform.forward);
+		Ray ray = new Ray(body.transform.position + rayOffset, body.transform.forward);
 		//print(ray.direction);
 		//Debug.DrawRay(ray.origin, ray.direction * camDistance, Color.yellow);
 
 		RaycastHit hit = new();
 		bool hitSmth = Physics.Raycast(ray, out hit, maxLength, layermask);
 
-        float scaleValue;
-        if (hitSmth)
+		float scaleValue;
+		if (hitSmth)
 		{
-            scaleValue = hit.distance / defaultLaserLength;
+			scaleValue = hit.distance / defaultLaserLength;
 		}
 		else
 		{

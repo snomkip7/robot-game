@@ -10,15 +10,20 @@ public class MechLegs : Legs
 	public Rigidbody legs;
 	private Player player;
 
-
-	// Start is called before the first frame update
-	void Start()
+	public override void init(Player player)
 	{
-		legs = GetComponent<Rigidbody>();
-		if(!GameObject.Find("Player").TryGetComponent<Player>(out player)) // gets player
+		/*if (!GameObject.Find("Player").TryGetComponent<Player>(out player)) // gets player
 		{
 			print("oh shoot legs didn't find player");
 		}
+		else
+		{
+			GetComponent<HingeJoint>().connectedBody = player.GetComponent<Rigidbody>();
+			print("legs connected to player");
+		}*/
+		legs = GetComponent<Rigidbody>();
+		GetComponent<HingeJoint>().connectedBody = player.player;
+		this.player = player;
 	}
 
 	/*// Update is called once per frame
@@ -41,8 +46,8 @@ public class MechLegs : Legs
 		//rotates movement by the camera's rotation
 		if (player.canWalk)
 		{
-            legs.velocity = Vector3.Lerp(legs.velocity, movement, movementSnapping);
-        }
+			legs.velocity = Vector3.Lerp(legs.velocity, movement, movementSnapping);
+		}
 
 		//rotate to velocity point
 		if (Mathf.Abs(legs.velocity.x)>.05f && Mathf.Abs(legs.velocity.z) > .05f)
@@ -53,15 +58,15 @@ public class MechLegs : Legs
 			legs.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
 		}
 
-    }
+	}
 
-    public override void jump()
-    {
+	public override void jump()
+	{
 		return; // do it
-    }
+	}
 
-    public override void down()
-    {
+	public override void down()
+	{
 		return; // no effect
-    }
+	}
 }

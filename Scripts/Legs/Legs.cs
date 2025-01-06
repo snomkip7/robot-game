@@ -4,9 +4,11 @@ using UnityEngine;
 
 public abstract class Legs : MonoBehaviour
 {
-    public abstract void move();
+	public abstract void move();
 
-    public abstract void jump();
+	public abstract void init(Player player);
 
-    public abstract void down();
+	public abstract void jump();
+
+	public abstract void down();
 }

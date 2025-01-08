@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 
 		string leftArmType = "laserArm";
 		string rightArmType = "swordArm";
-		string legType = "mechLegs";
+		string legType = "mechWheel";
 		string bodyType = "rocketDash";
 
 		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();

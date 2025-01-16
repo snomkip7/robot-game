@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 	public Body body;
 	public Arm leftArm;
 	public Arm rightArm;
+	public Transform head;
 	
 	//public Vector3 gravity;
 	public Vector3 camOffset; // target position for camera
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
 	
 	private Vector3 camCurrentOffset;
 	private Vector3 camPositionChange = Vector3.up * 4;
+	private Quaternion headAngle = Quaternion.Euler(new Vector3(-90, 0, 90));
 
 
 	void Start()
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
 		
 		player = GetComponent<Rigidbody>();
 		cam = GameObject.Find("Camera");
+		head = transform.Find("Head");
 		//gravity = Physics.gravity; // need to figure out gravity eventually
 		camOffset = cam.transform.position;
 		camCurrentOffset = camOffset;
@@ -42,8 +45,8 @@ public class Player : MonoBehaviour
 
 		string leftArmType = "laserArm";
 		string rightArmType = "swordArm";
-		string legType = "mechWheel";
-		string bodyType = "rocketDash";
+		string legType = "rocketLegs";
+		string bodyType = "empBody";
 
 		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
 		leftArm.init();
@@ -135,7 +138,8 @@ public class Player : MonoBehaviour
 			Quaternion targetRotation = Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f); // y rotation of cam
 			player.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotateSpeed);
 			camLastRotation = cam.transform.rotation;
-			
+
+			head.rotation = targetRotation * headAngle;
 		}
 		//player.MoveRotation(Quaternion.Euler(0f, cam.transform.rotation.eulerAngles.y, 0f)); // change to head to instantly snap
 

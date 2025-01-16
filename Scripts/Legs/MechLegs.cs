@@ -60,13 +60,4 @@ public class MechLegs : Legs
 
 	}
 
-	public override void jump()
-	{
-		return; // do it
-	}
-
-	public override void down()
-	{
-		return; // no effect
-	}
 }

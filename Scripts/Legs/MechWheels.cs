@@ -51,18 +51,11 @@ public class MechWheels : Legs
 		Quaternion rotation;
 		wheel.GetWorldPose(out pos, out rotation);
 
+		Debug.DrawLine(transform.position, pos, Color.blue);
+
 
 		wheelMesh.transform.position = pos;
 		wheelMesh.transform.rotation = rotation*Quaternion.Euler(new Vector3(90, 90, 0));
 	}
 
-	public override void down()
-	{
-		return;
-	}
-
-	public override void jump()
-	{
-		return;
-	}
 }

@@ -100,6 +100,15 @@ public class ChargeLaser : Body
 
 	public void OnTriggerEnter(Collider other)
 	{
+		other.gameObject.GetComponent<Enemy>().takeDmg(Time.fixedDeltaTime * 25);
 		print("oh shoot it do be collidin");
+
+	}
+
+	public void OnTriggerStay(Collider other)
+	{
+		other.gameObject.GetComponent<Enemy>().takeDmg(Time.fixedDeltaTime*25);
+		print("oh shoot it do be collidin");
+
 	}
 }

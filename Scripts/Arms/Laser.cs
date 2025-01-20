@@ -25,8 +25,8 @@ public class Laser : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        //other.gameObject.GetComponent<Enemy>().takeDmg();
-        print("omg hit smth");
+        other.gameObject.GetComponent<Enemy>().takeDmg(10);
+        //print("omg hit smth");
         Destroy(gameObject);
     }
 }

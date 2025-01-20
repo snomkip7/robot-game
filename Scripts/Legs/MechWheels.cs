@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class MechWheels : Legs
 {
+	public Rigidbody leg;
 	public WheelCollider wheel;
 	public Transform wheelMesh;
 	private float turnSpeed = 50f;
-	private float moveSpeed = 1500f;
+	private float moveSpeed = 1900f;
 
 	public override void init(Player player)
 	{
+		this.player = player;
 		wheel = GetComponentInChildren<WheelCollider>();
 		GetComponentInChildren<HingeJoint>().connectedBody = player.player;
 		wheelMesh = transform.Find("Wheel").Find("WheelModel");
+		leg = GetComponentInChildren<Rigidbody>();
 	}
 
 	public override void move()
@@ -56,6 +59,7 @@ public class MechWheels : Legs
 
 		wheelMesh.transform.position = pos;
 		wheelMesh.transform.rotation = rotation*Quaternion.Euler(new Vector3(90, 90, 0));
+		leg.velocity = new Vector3(leg.velocity.x, -10, leg.velocity.z);
 	}
 
 }

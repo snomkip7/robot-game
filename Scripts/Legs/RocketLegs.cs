@@ -9,7 +9,6 @@ public class RocketLegs : Legs
 	private float speed = 100;
 	private float verticality = 40;
 	private float acceleration = .1f;
-	private Player player;
 	private float gravityThreshold = 4f;
 	private float gravity = -60;
 
@@ -31,13 +30,13 @@ public class RocketLegs : Legs
 			Debug.DrawLine(transform.position, transform.position - Vector3.up * gravityThreshold, Color.green);
 			if (Physics.Raycast(transform.position, Vector3.down, gravityThreshold))
 			{
-				print("grounded");
+				//print("grounded");
 				friction = 1.3f;
 				target += transform.forward * gravity; // gravity
 			}
 			else
 			{
-				print("airborne");
+				//print("airborne");
 				target += transform.right * -speed * Input.GetAxis("Vertical"); // forwards backwards
 				target += transform.up * -speed * Input.GetAxis("Horizontal"); // right left
 				target += transform.forward * gravity; // gravity

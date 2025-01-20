@@ -8,7 +8,6 @@ public class MechLegs : Legs
 	private float movementSnapping = .95f; // for the lerp in velocity
 	private float rotationSpeed = 10f; // speed of rotating to velocity
 	public Rigidbody legs;
-	private Player player;
 
 	public override void init(Player player)
 	{
@@ -34,7 +33,7 @@ public class MechLegs : Legs
 
 	public override void move()
 	{
-		Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), legs.velocity.y, Input.GetAxis("Vertical"));
+		Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 		movement.Normalize();
 		movement.x *= speed;
 		movement.z *= speed;
@@ -46,6 +45,7 @@ public class MechLegs : Legs
 		//rotates movement by the camera's rotation
 		if (player.canWalk)
 		{
+			movement.y = -10;
 			legs.velocity = Vector3.Lerp(legs.velocity, movement, movementSnapping);
 		}
 

@@ -9,6 +9,7 @@ public class SwordArm : Arm
 	private float cooldown = 1f;
 	private Animator animator;
 	private BoxCollider hitbox;
+	bool hit = false;
 
 	public override void init()
 	{
@@ -30,6 +31,10 @@ public class SwordArm : Arm
 			}
 			else if(timer < cooldown - 0.2f)
 			{
+				if (hit)
+				{
+					return;
+				}
 				hitbox.enabled = true;
 			} 
 		}
@@ -39,11 +44,13 @@ public class SwordArm : Arm
 		attacking = true;
 		print("swoosh");
 		animator.Play("armThing");
+		hit = false;
 	}
 
 	public void OnTriggerEnter(Collider other)
 	{
-		//other.gameObject.GetComponent<Enemy>().takeDmg();
-		print("omg hit smth");
+		other.gameObject.GetComponent<Enemy>().takeDmg(20);
+		//print("omg hit smth");
+		hit = true;
 	}
 }

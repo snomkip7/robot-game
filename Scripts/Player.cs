@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
 	private Vector3 camCurrentOffset;
 	private Vector3 camPositionChange = Vector3.up * 4;
 	private Quaternion headAngle = Quaternion.Euler(new Vector3(-90, 0, 90));
+	private float health = 100;
 
 
 	void Start()
@@ -46,7 +47,7 @@ public class Player : MonoBehaviour
 		string leftArmType = "laserArm";
 		string rightArmType = "swordArm";
 		string legType = "rocketLegs";
-		string bodyType = "empBody";
+		string bodyType = "chargeLaser";
 
 		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
 		leftArm.init();
@@ -200,6 +201,17 @@ public class Player : MonoBehaviour
 
 
 
+	}
+
+	public void takeDmg(int amount)
+	{
+		health -= amount;
+		print("ouch only " + health + " hp left");
+		if (health <= 0)
+		{
+			print("OH SHOOT YOU DIED L");
+			// DO SMTH
+		}
 	}
 
 }

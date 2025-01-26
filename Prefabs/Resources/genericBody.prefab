@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3856260314646931706
+--- !u!1 &1254977095505304086
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3085883367323764944}
-  - component: {fileID: 3678370901887302907}
-  - component: {fileID: 2258340118158700397}
-  - component: {fileID: 2167514399177027073}
-  - component: {fileID: 1616450961237273522}
+  - component: {fileID: 3126613515917562336}
+  - component: {fileID: 1946922357753129485}
+  - component: {fileID: 558572360714571539}
+  - component: {fileID: 8708779044692157746}
   m_Layer: 7
-  m_Name: rocketDash
+  m_Name: genericBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3085883367323764944
+--- !u!4 &3126613515917562336
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856260314646931706}
+  m_GameObject: {fileID: 1254977095505304086}
   serializedVersion: 2
   m_LocalRotation: {x: -0.50000006, y: 0.49999997, z: 0.50000006, w: 0.49999997}
-  m_LocalPosition: {x: -0, y: 10.86, z: -0}
+  m_LocalPosition: {x: 0, y: 10.86, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3678370901887302907
+--- !u!33 &1946922357753129485
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856260314646931706}
-  m_Mesh: {fileID: 5241639172327143420, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
---- !u!23 &2258340118158700397
+  m_GameObject: {fileID: 1254977095505304086}
+  m_Mesh: {fileID: -2823579039810960785, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
+--- !u!23 &558572360714571539
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856260314646931706}
+  m_GameObject: {fileID: 1254977095505304086}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -65,9 +64,6 @@ MeshRenderer:
   m_Materials:
   - {fileID: -3846018093981099296, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
   - {fileID: -6922793697723135513, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
-  - {fileID: -8274133419916619345, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
-  - {fileID: -6629797300637803691, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
-  - {fileID: -2813467912831258332, guid: dff76a16e7257404eb090c705a3965bf, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,43 +85,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &2167514399177027073
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856260314646931706}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1616450961237273522
+--- !u!114 &8708779044692157746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856260314646931706}
+  m_GameObject: {fileID: 1254977095505304086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8e38d04e3f3398438328a6e8b0b75ab, type: 3}
+  m_Script: {fileID: 11500000, guid: f1aa8177894177e4bbe9afd5de41a587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onCooldown: 0

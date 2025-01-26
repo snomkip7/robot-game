@@ -5,7 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     private float lifespan = 2f;
-    private float speed = 300f;
+    private float speed = 500f;
     private Rigidbody body;
     void Start()
     {

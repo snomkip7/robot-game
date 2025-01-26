@@ -32,7 +32,7 @@ public class RocketDash : Body
 			{
 				body.velocity = Vector3.Lerp(body.velocity, Vector3.zero, slowdown);
 				// update visual?
-				if(timer < 1.8f)
+				if(timer < 2.2f)
 				{
 					player.canWalk = true;
 					if(timer <= 0)

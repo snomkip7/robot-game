@@ -53,7 +53,7 @@ public class MechLegs : Legs
 		if (Mathf.Abs(legs.velocity.x)>.05f && Mathf.Abs(legs.velocity.z) > .05f)
 		{
 			Quaternion targetRotation = Quaternion.LookRotation(legs.velocity, Vector3.up);
-			targetRotation = Quaternion.Euler(new Vector3(0, targetRotation.eulerAngles.y, 0));
+			targetRotation = Quaternion.Euler(new Vector3(90, targetRotation.eulerAngles.y, 90));
 			//print(targetRotation.eulerAngles);
 			legs.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
 		}

@@ -1,3 +1,4 @@
+using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -46,11 +47,24 @@ public class Player : MonoBehaviour
 
 		string leftArmType = "laserArm";
 		string rightArmType = "swordArm";
-		string legType = "rocketLegs";
+		string legType = "rocketLeg";
 		string bodyType = "chargeLaser";
+
+		// loading save
+		string savePath = Application.persistentDataPath + "/saveFile.json";
+		if (System.IO.File.Exists(savePath))
+		{
+			string json = System.IO.File.ReadAllText(savePath);
+			SaveFile save = JsonUtility.FromJson<SaveFile>(json);
+			leftArmType = save.leftArmType;
+			rightArmType = save.rightArmType;
+			bodyType = save.bodyType;
+			legType = save.legType;
+		}
 
 		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
 		leftArm.init();
+		leftArm.transform.position = new Vector3(-leftArm.transform.position.x, leftArm.transform.position.y, leftArm.transform.position.z);
 
 		rightArm = (Instantiate(Resources.Load(rightArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
 		rightArm.init();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SwordArm : Arm
+public class BoxingArm : Arm
 {
 	public float timer;
 	private float cooldown = 1f;
@@ -14,7 +14,7 @@ public class SwordArm : Arm
 	public override void init()
 	{
 		animator = GetComponent<Animator>();
-		hitbox= GetComponent<BoxCollider>();
+		hitbox = GetComponent<BoxCollider>();
 		timer = cooldown;
 	}
 
@@ -29,27 +29,27 @@ public class SwordArm : Arm
 				attacking = false;
 				timer = cooldown;
 			}
-			else if(timer < cooldown - 0.2f)
+			else if (timer < cooldown - 0.2f)
 			{
 				if (hit)
 				{
 					return;
 				}
 				hitbox.enabled = true;
-			} 
+			}
 		}
 	}
 	public override void attack()
 	{
 		attacking = true;
-		print("swoosh");
-		animator.Play("slash");
+		print("whpawh");
+		animator.Play("punch");
 		hit = false;
 	}
 
 	public void OnTriggerEnter(Collider other)
 	{
-		other.gameObject.GetComponent<Enemy>().takeDmg(25);
+		other.gameObject.GetComponent<Enemy>().takeDmg(15);
 		//print("omg hit smth");
 		hit = true;
 	}

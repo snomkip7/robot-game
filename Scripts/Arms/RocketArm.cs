@@ -6,7 +6,7 @@ using UnityEngine;
 public class RocketArm : Arm
 {
 	public float timer;
-	public float cooldown = 1;
+	public float cooldown = 1.5f;
 
 	public override void init()
 	{

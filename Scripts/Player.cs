@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 		//Cursor.lockState = CursorLockMode.Locked;
 
 		string leftArmType = "laserArm";
-		string rightArmType = "swordArm";
+		string rightArmType = "boxingArm";
 		string legType = "rocketLeg";
 		string bodyType = "chargeLaser";
 
@@ -64,10 +64,11 @@ public class Player : MonoBehaviour
 
 		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
 		leftArm.init();
-		leftArm.transform.position = new Vector3(-leftArm.transform.position.x, leftArm.transform.position.y, leftArm.transform.position.z);
 
 		rightArm = (Instantiate(Resources.Load(rightArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
 		rightArm.init();
+		rightArm.transform.position = new Vector3(-rightArm.transform.position.x, rightArm.transform.position.y, rightArm.transform.position.z);
+		rightArm.transform.localScale = new Vector3(3,-3,3);
 
 		legs = (Instantiate(Resources.Load(legType, typeof(GameObject)), transform) as GameObject).GetComponent<Legs>();
 		legs.init(this);

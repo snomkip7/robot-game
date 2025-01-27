@@ -8,6 +8,7 @@ public class MechLegs : Legs
 	private float movementSnapping = .95f; // for the lerp in velocity
 	private float rotationSpeed = 10f; // speed of rotating to velocity
 	public Rigidbody legs;
+	public Animator animator;
 
 	public override void init(Player player)
 	{
@@ -23,6 +24,7 @@ public class MechLegs : Legs
 		legs = GetComponent<Rigidbody>();
 		GetComponent<HingeJoint>().connectedBody = player.player;
 		this.player = player;
+		animator = GetComponent<Animator>();
 	}
 
 	/*// Update is called once per frame
@@ -47,6 +49,7 @@ public class MechLegs : Legs
 		{
 			movement.y = -10;
 			legs.velocity = Vector3.Lerp(legs.velocity, movement, movementSnapping);
+			animator.enabled = false;
 		}
 
 		//rotate to velocity point
@@ -56,6 +59,12 @@ public class MechLegs : Legs
 			targetRotation = Quaternion.Euler(new Vector3(90, targetRotation.eulerAngles.y, 90));
 			//print(targetRotation.eulerAngles);
 			legs.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
+			animator.enabled = true;
+			animator.Play("walking");
+		}
+		else
+		{
+			animator.enabled = false;
 		}
 
 	}

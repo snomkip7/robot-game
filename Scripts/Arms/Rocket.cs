@@ -86,7 +86,7 @@ public class Rocket : MonoBehaviour
 		Enemy hit = other.gameObject.GetComponent<Enemy>();
 		if(hit != null)
 		{
-			hit.takeDmg(20);
+			hit.takeDmg(22);
 			print("DIRECT HIT!");
 		}
 		else
@@ -96,7 +96,7 @@ public class Rocket : MonoBehaviour
 				Enemy casualtyScript = casualty.gameObject.GetComponent<Enemy>();
 				if (casualtyScript != null)
 				{
-					casualtyScript.takeDmg(10);
+					casualtyScript.takeDmg(12);
 					print("hit an enemy");
 				}
 			}

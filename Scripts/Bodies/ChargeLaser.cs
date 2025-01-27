@@ -10,7 +10,7 @@ public class ChargeLaser : Body
 	private Rigidbody body;
 	private Vector3 rayOffset = new Vector3(0, 10.45f, 0);
 	private float maxLength = 100f;
-	private float defaultLaserLength = 3f;
+	private float defaultLaserLength = 1.8f;
 	public GameObject chargeLaser;
 	private bool shooting = false;
 

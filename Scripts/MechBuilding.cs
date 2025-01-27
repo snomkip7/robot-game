@@ -4,14 +4,16 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static TreeEditor.TreeEditorHelper;
+using static UnityEditor.PlayerSettings.Switch;
 
 public class MechBuilding : MonoBehaviour
 {
-	public string currentlySelected = "laserArmR";
+	public string currentlySelected = "boxingArmRight";
 	public GameObject leftArm;
-	public string leftArmName = "swordArm";
+	public string leftArmName = "boxingArm";
 	public GameObject rightArm;
-	public string rightArmName = "swordArm";
+	public string rightArmName = "boxingArm";
 	public GameObject body;
 	public string bodyName = "chargeLaser";
 	public GameObject legs;
@@ -22,6 +24,10 @@ public class MechBuilding : MonoBehaviour
 	public TextMeshProUGUI description;
 	public GameObject robotParts;
 
+	public string boxingArmText = "this is a boxing arm. it like punches & stuff";
+	public GameObject boxingArmObj;
+	public GameObject boxingArmLeft;
+	public GameObject boxingArmRight;
 	public string swordArmText = "this is a sword arm. it like swings & stuff";
 	public GameObject swordArmObj;
 	public GameObject swordArmLeft;
@@ -35,6 +41,9 @@ public class MechBuilding : MonoBehaviour
 	public GameObject rocketArmLeft;
 	public GameObject rocketArmRight;
 
+	public string genericBodyText = "this is a generic body. it dont do anything";
+	public GameObject genericBodyObj;
+	public GameObject genericBodyChest;
 	public string chargeLaserText = "this is a charge laser. it like charges & lasers";
 	public GameObject chargeLaserObj;
 	public GameObject chargeLaserChest;
@@ -58,6 +67,46 @@ public class MechBuilding : MonoBehaviour
 	void Start()
 	{
 		// define all the game objects! **************************************************************
+		string savePath = Application.persistentDataPath + "/saveFile.json";
+		if (System.IO.File.Exists(savePath))
+		{
+			string json = System.IO.File.ReadAllText(savePath);
+			SaveFile save = JsonUtility.FromJson<SaveFile>(json);
+			if (save.swordArmUnlocked)
+			{
+				GameObject.Find("RswordArmLocked").SetActive(false);
+				GameObject.Find("LswordArmLocked").SetActive(false);
+			}
+			if (save.laserArmUnlocked)
+			{
+				GameObject.Find("RlaserArmLocked").SetActive(false);
+				GameObject.Find("LlaserArmLocked").SetActive(false);
+			}
+			if (save.rocketArmUnlocked)
+			{
+				GameObject.Find("rocketArmLocked").SetActive(false);
+			}
+			if (save.empBodyUnlocked)
+			{
+				GameObject.Find("empBodyLocked").SetActive(false);
+			}
+			if (save.chargeLaserUnlocked)
+			{
+				GameObject.Find("chargeLaserLocked").SetActive(false);
+			}
+			if (save.rocketDashUnlocked)
+			{
+				GameObject.Find("rocketDashLocked").SetActive(false);
+			}
+			if (save.mechWheelUnlocked)
+			{
+				GameObject.Find("mechWheelLocked").SetActive(false);
+			}
+			if (save.rocketLegUnlocked)
+			{
+				GameObject.Find("rocketLegLocked").SetActive(false);
+			}
+		}
 	}
 	
 	void Update()
@@ -77,40 +126,83 @@ public class MechBuilding : MonoBehaviour
 		{
 			string hitObj = hit.transform.name;
 
-			if(hitObj == "RswordArmSprite")
+			if (hitObj == "RboxingArmSprite")
 			{
+				currentlySelected = "boxingArmRight";
+			}
+			else if(hitObj == "RswordArmSprite")
+			{
+				if (GameObject.Find("RswordArmLocked") != null) {
+					return;
+				}
 				currentlySelected = "swordArmRight";
 			} 
 			else if (hitObj == "RlaserArmSprite")
 			{
+				if (GameObject.Find("RlaserArmLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "laserArmRight";
 			} 
 			else if (hitObj == "RrocketArmSprite")
 			{
+				if (GameObject.Find("RrocketArmLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "rocketArmRight";
 			} 
+			else if (hitObj == "LboxingArmSprite")
+			{
+				currentlySelected = "boxingArmLeft";
+			}
 			else if (hitObj == "LswordArmSprite")
 			{
+				if (GameObject.Find("LswordArmLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "swordArmLeft";
 			}
 			else if (hitObj == "LlaserArmSprite")
 			{
+				if (GameObject.Find("LlaserArmLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "laserArmLeft";
 			}
 			else if (hitObj == "LrocketArmSprite")
 			{
+				if (GameObject.Find("LrocketArmLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "rocketArmLeft";
 			}
 			else if (hitObj == "rocketDashSprite")
 			{
+				if (GameObject.Find("rocketDashLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "rocketDashChest";
 			}
 			else if (hitObj == "chargeLaserSprite")
 			{
+				if (GameObject.Find("chargeLaserLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "chargeLaserChest";
 			}
 			else if (hitObj == "empBodySprite")
 			{
+				if (GameObject.Find("empBodyLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "empBodyChest";
 			}
 			else if (hitObj == "mechLegsSprite")
@@ -119,10 +211,18 @@ public class MechBuilding : MonoBehaviour
 			}
 			else if (hitObj == "wheelSprite")
 			{
+				if (GameObject.Find("mechWheelLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "mechWheelMovement";
 			}
 			else if (hitObj == "rocketLegSprite")
 			{
+				if (GameObject.Find("rocketLegLocked") != null)
+				{
+					return;
+				}
 				currentlySelected = "rocketLegMovement";
 			}
 			
@@ -143,8 +243,39 @@ public class MechBuilding : MonoBehaviour
 		{
 			// do the confirm stuff
 			// save it & dont forget to load it
-
 			SaveFile save = new(leftArmName, rightArmName, bodyName, legsName);
+			if (GameObject.Find("RswordArmLocked")==null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("RlaserArmLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("RrocketArmLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("chargeLaserLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("empBodyLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("rocketDashLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("mechWheelLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
+			if (GameObject.Find("rocketLegLocked") == null)
+			{
+				save.swordArmUnlocked = true;
+			}
 			string json = JsonUtility.ToJson(save);
 			string savePath = Application.persistentDataPath + "/saveFile.json";
 			print("saving to: " + savePath);

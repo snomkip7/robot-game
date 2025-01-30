@@ -48,7 +48,7 @@ public class MechWheels : Legs
 		}
 
 		//print("motor torque:" + wheel.motorTorque);
-		print(wheel.rpm);
+		//print(wheel.rpm);
 
 		Vector3 pos;
 		Quaternion rotation;

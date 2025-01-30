@@ -11,6 +11,9 @@ public class RocketLegs : Legs
 	private float acceleration = .1f;
 	private float gravityThreshold = 4f;
 	private float gravity = -60;
+	private Vector3 gravVector;
+	private ParticleSystem particles;
+	private bool playParticles = false;
 
 	public override void init(Player player)
 	{
@@ -18,10 +21,13 @@ public class RocketLegs : Legs
 		GetComponent<HingeJoint>().connectedBody = player.player;
 		this.player = player;
 		verticality -= gravity;
+		particles = GetComponentInChildren<ParticleSystem>();
+		particles.Stop();
 	}
 	public override void move()
 	{
 		legs.rotation = player.transform.rotation * Quaternion.Euler(-90, 180, -90);
+		playParticles = false;
 
 		Vector3 target = Vector3.zero;
 		float friction = 1;
@@ -40,15 +46,21 @@ public class RocketLegs : Legs
 				target += transform.right * -speed * Input.GetAxis("Vertical"); // forwards backwards
 				target += transform.up * -speed * Input.GetAxis("Horizontal"); // right left
 				target += transform.forward * gravity; // gravity
+				if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal")!=0)
+				{
+					playParticles = true;
+				}
 			}
 
 			if (Input.GetKey(KeyCode.Space))
 			{
 				target += transform.forward * verticality;
+				playParticles = true;
 			}
 			else if (Input.GetKey(KeyCode.LeftShift))
 			{
 				target += transform.forward * -speed;
+				playParticles = true;
 			}
 
 			
@@ -56,7 +68,13 @@ public class RocketLegs : Legs
 		
 		legs.velocity = Vector3.Lerp(legs.velocity, target, acceleration*friction);
 
-		
+		if (playParticles){
+			particles.Play();
+		}
+		else
+		{
+			particles.Stop();
+		}
 
 		/*float straight = Input.GetAxis("Vertical");
 		if (straight > 0)

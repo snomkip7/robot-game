@@ -12,6 +12,7 @@ public class Rocket : MonoBehaviour
 	private float maxAngle = 90;
 	private float rotationSnapping = .1f;
 	private Quaternion initialRotation;
+	private float targetCooldown = .2f;
 
 	[SerializeField]
 	public LayerMask targetMask;
@@ -32,6 +33,16 @@ public class Rocket : MonoBehaviour
 		if (lifespan <= 0)
 		{
 			Destroy(gameObject);
+		}
+		targetCooldown -= Time.fixedDeltaTime;
+		if (targetCooldown <= 0)
+		{
+			Collider[] objects = Physics.OverlapSphere(transform.position, targetRadius, targetMask);
+			if (objects.Length != 0)
+			{
+				target = objects[0].gameObject;
+			}
+			targetCooldown = .2f;
 		}
 
 		if (target == null)
@@ -102,6 +113,8 @@ public class Rocket : MonoBehaviour
 			}
 		}
 		//smth smth particles
+		GameObject explosionEffect = Instantiate(Resources.Load("explosion", typeof(GameObject))) as GameObject;
+		explosionEffect.transform.position = transform.position;
 
 		Destroy(gameObject);
 	}

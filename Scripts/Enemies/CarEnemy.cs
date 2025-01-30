@@ -8,7 +8,7 @@ using static UnityEditor.PlayerSettings;
 
 public class CarEnemy : Enemy
 {
-	private float health = 50;
+	private float health = 70;
 	private Player player;
 	private Vector3 targetPoint;
 	private NavMeshAgent move;
@@ -51,7 +51,7 @@ public class CarEnemy : Enemy
 			}
 		}
 
-		if (Mathf.Abs(player.transform.position.x - transform.position.x) > 200 && Mathf.Abs(player.transform.position.z - transform.position.z) > 200)
+		if (Mathf.Abs(player.transform.position.x - transform.position.x) > 75 && Mathf.Abs(player.transform.position.z - transform.position.z) > 75)
 		{
 			targetPoint = transform.position;
 			//print("too far");

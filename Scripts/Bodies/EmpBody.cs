@@ -110,6 +110,8 @@ public class EmpBody : Body
 	private void explode()
 	{
 		print("kaboom");
+		GameObject sparkEffect = Instantiate(Resources.Load("empSparks", typeof(GameObject))) as GameObject;
+		sparkEffect.transform.position = transform.position;
 		Collider[] hits = Physics.OverlapSphere(transform.position, empRadius);
 		foreach (Collider collider in hits)
 		{
@@ -117,6 +119,8 @@ public class EmpBody : Body
 			if (enemy != null)
 			{
 				enemy.stun();
+				GameObject sparks= Instantiate(Resources.Load("empSparks", typeof(GameObject))) as GameObject;
+				sparks.transform.position = enemy.transform.position;
 			}
 		}
 		exploded = true;

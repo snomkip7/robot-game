@@ -24,43 +24,43 @@ public class MechBuilding : MonoBehaviour
 	public TextMeshProUGUI description;
 	public GameObject robotParts;
 
-	public string boxingArmText = "this is a boxing arm. it like punches & stuff";
+	public string boxingArmText = "On the surface it seems like a regular boxing glove, in reality it has a larger range than it would seem. It uses strong magnets to extend the boxing glove at very high speeds. ";
 	public GameObject boxingArmObj;
 	public GameObject boxingArmLeft;
 	public GameObject boxingArmRight;
-	public string swordArmText = "this is a sword arm. it like swings & stuff";
+	public string swordArmText = "A titanium blade heated with a laser to 1000F, hot enough to melt through robots made of 2024 aluminum alloy which melts at 930F. Both materials have been used in aerospace engineering for around 200 years. ";
 	public GameObject swordArmObj;
 	public GameObject swordArmLeft;
 	public GameObject swordArmRight;
-	public string laserArmText = "this is a laser arm. it like shoots lasers & stuff";
+	public string laserArmText = "A laser made with neodymium-doped Yttrium aluminum garnet crystal. This crystal has been used for cutting metal in the past but recent technological improvements have improved its strength.";
 	public GameObject laserArmObj;
 	public GameObject laserArmLeft;
 	public GameObject laserArmRight;
-	public string rocketArmText = "this is a rocket arm. it like shoots rockets & stuff but needs to be actually done";
+	public string rocketArmText = "This arm fires a rocket that homes in on hostile robots. It uses LIDAR (Light Detection and Ranging) to detect enemies and uses the collected data to chart a path towards the enemy. ";
 	public GameObject rocketArmObj;
 	public GameObject rocketArmLeft;
 	public GameObject rocketArmRight;
 
-	public string genericBodyText = "this is a generic body. it dont do anything";
+	public string genericBodyText = "A simple body made with 2024 aluminum alloy, used in aerospace engineering since 1931, and built to withstand minor collisions. ";
 	public GameObject genericBodyObj;
 	public GameObject genericBodyChest;
-	public string chargeLaserText = "this is a charge laser. it like charges & lasers";
+	public string chargeLaserText = "A body containing a strong, large laser made of neodymium glass. It favors high energy but low repetition and has been used to bore through metal. This leads to its powerful strength but long cooldown.";
 	public GameObject chargeLaserObj;
 	public GameObject chargeLaserChest;
-	public string rocketDashText = "this is a rocket dash. it like dashes & stuff";
+	public string rocketDashText = "A body consisting of a strong but low fueled rocket. It allows for quick movement but can’t be sustained for long periods of time. It is fueled by liquid oxygen and methane, similar to older rockets like the Vulcan Centaur.";
 	public GameObject rocketDashObj;
 	public GameObject rocketDashChest;
-	public string empBodyText = "this is an emp body. it like emp and stunns & stuff";
+	public string empBodyText = "A body consisting of an EMP wave generator, specifically an explosively pumped flux compression generator which uses explosives to compress a magnetic flux. It has a long cooldown as each use requires remaking the EMP.";
 	public GameObject empBodyObj;
 	public GameObject empBodyChest;
 
-	public string mechLegsText = "these are mech legs. they like walk & stuff";
+	public string mechLegsText = "A pair of mechanical legs that allow for simple walking and can be turned easily. They are slow but easily controllable and are the product of over a hundred years of innovation by companies like Boston Dynamics.";
 	public GameObject mechLegsObj;
 	public GameObject mechLegsMovement;
-	public string mechWheelText = "this is a mech wheel. it like wheels & stuff";
+	public string mechWheelText = "A mechanical wheel that can achieve relatively high speeds, though struggles going uphill and with turning. It is made of carbon fiber, similar to early rovers used on mars such as perseverance.";
 	public GameObject mechWheelObj;
 	public GameObject mechWheelMovement;
-	public string rocketLegText = "this is a rocket leg. it like rockets & stuff";
+	public string rocketLegText = "A stronger rocket capable of achieving high speeds. It also uses liquid oxygen and methane though it requires a lot more. Recent technological advancements have allowed for it to move in multiple directions.";
 	public GameObject rocketLegObj;
 	public GameObject rocketLegMovement;
 
@@ -84,7 +84,8 @@ public class MechBuilding : MonoBehaviour
 			}
 			if (save.rocketArmUnlocked)
 			{
-				GameObject.Find("rocketArmLocked").SetActive(false);
+				GameObject.Find("RrocketArmLocked").SetActive(false);
+				GameObject.Find("LrocketArmLocked").SetActive(false);
 			}
 			if (save.empBodyUnlocked)
 			{
@@ -181,6 +182,10 @@ public class MechBuilding : MonoBehaviour
 				}
 				currentlySelected = "rocketArmLeft";
 			}
+			else if (hitObj == "genericBodySprite")
+			{
+				currentlySelected = "genericBodyChest";
+			}
 			else if (hitObj == "rocketDashSprite")
 			{
 				if (GameObject.Find("rocketDashLocked") != null)
@@ -250,38 +255,38 @@ public class MechBuilding : MonoBehaviour
 			}
 			if (GameObject.Find("RlaserArmLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.laserArmUnlocked = true;
 			}
 			if (GameObject.Find("RrocketArmLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.rocketArmUnlocked = true;
 			}
 			if (GameObject.Find("chargeLaserLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.chargeLaserUnlocked = true;
 			}
 			if (GameObject.Find("empBodyLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.empBodyUnlocked = true;
 			}
 			if (GameObject.Find("rocketDashLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.rocketDashUnlocked = true;
 			}
 			if (GameObject.Find("mechWheelLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.mechWheelUnlocked = true;
 			}
 			if (GameObject.Find("rocketLegLocked") == null)
 			{
-				save.swordArmUnlocked = true;
+				save.rocketLegUnlocked = true;
 			}
 			string json = JsonUtility.ToJson(save);
 			string savePath = Application.persistentDataPath + "/saveFile.json";
 			print("saving to: " + savePath);
 			System.IO.File.WriteAllText(savePath, json);
 
-			SceneManager.LoadScene("Demo");
+			SceneManager.LoadScene("Level");
 		}
 		if (currentlySelected.Contains("Left"))
 		{

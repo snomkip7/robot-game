@@ -11,7 +11,7 @@ public class Turret : Enemy
 	private bool canShoot = true;
 	private float stunTimer = 5;
 	private bool stunned = false;
-	private float health = 100;
+	private float health = 85;
 	private bool hit;
 	public Player player;
 	public GameObject barrel;
@@ -45,10 +45,10 @@ public class Turret : Enemy
 		hit = false;
 
 		
-		Vector3 targetDirection = (player.transform.position - transform.position).normalized;
+		Vector3 targetDirection = (player.transform.position+Vector3.up*5 - transform.position).normalized;
 
 
-		barrel.transform.rotation = Quaternion.Lerp(barrel.transform.rotation, Quaternion.LookRotation(targetDirection, Vector3.up), .2f);
+		barrel.transform.rotation = Quaternion.Lerp(barrel.transform.rotation, Quaternion.LookRotation(targetDirection, Vector3.up), .3f);
 		//barrel.transform.rotation = Quaternion.LookRotation(targetDirection, Vector3.up);
 
 		if (!canShoot)

@@ -2,6 +2,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
 
 	[SerializeField] private LayerMask layermask;
 	
-	private bool cursorLocked = false;
+	public bool cursorLocked = false;
 	private float camSpeed = 10; // sensitivity
 	public float rotateSpeed = 7.0f; // how fast you rotate to a camera
 	
@@ -32,6 +33,13 @@ public class Player : MonoBehaviour
 	private Vector3 camPositionChange = Vector3.up * 4;
 	private Quaternion headAngle = Quaternion.Euler(new Vector3(-90, 0, 90));
 	private float health = 100;
+	public GameObject pauseScreen;
+	private GameObject healthBg;
+	public GameObject messageBox;
+	public GameObject messageText;
+	public GameObject hint;
+	public bool fixedShip = false;
+	public bool hintWasActive = false;
 
 
 	void Start()
@@ -44,11 +52,20 @@ public class Player : MonoBehaviour
 		camOffset = cam.transform.position;
 		camCurrentOffset = camOffset;
 		//Cursor.lockState = CursorLockMode.Locked;
+		pauseScreen = GameObject.Find("PauseScreen");
+		healthBg = GameObject.Find("healthbg");
 
-		string leftArmType = "laserArm";
+		messageBox = GameObject.Find("messageBox");
+		messageText = GameObject.Find("messageText");
+		hint = GameObject.Find("hintText");
+		hint.SetActive(false);
+		messageText.SetActive(false);
+		messageBox.SetActive(false);
+
+		string leftArmType = "boxingArm";
 		string rightArmType = "boxingArm";
-		string legType = "rocketLeg";
-		string bodyType = "chargeLaser";
+		string legType = "mechLegs";
+		string bodyType = "genericBody";
 
 		// loading save
 		string savePath = Application.persistentDataPath + "/saveFile.json";
@@ -60,6 +77,13 @@ public class Player : MonoBehaviour
 			rightArmType = save.rightArmType;
 			bodyType = save.bodyType;
 			legType = save.legType;
+		}
+		else
+		{
+			SaveFile save = new(leftArmType, rightArmType, bodyType, legType);
+			string json = JsonUtility.ToJson(save);
+			print("saving to: " + savePath);
+			System.IO.File.WriteAllText(savePath, json);
 		}
 
 		leftArm = (Instantiate(Resources.Load(leftArmType, typeof(GameObject)), transform) as GameObject).GetComponent<Arm>();
@@ -87,20 +111,35 @@ public class Player : MonoBehaviour
 			{
 				Cursor.lockState = CursorLockMode.Locked;
 				print("locking cursor");
-				// show pause menu
-				//Time.timeScale = 0.01f; // hella broken
+				// close pause menu
+				//Time.timeScale = 0.01f;
 				//print(Time.timeScale);
 				//Time.fixedDeltaTime = .02f;
-				
+				pauseScreen.SetActive(false);
+				if (hintWasActive)
+				{
+					hint.SetActive(true);
+					hintWasActive = false;
+				}
+				messageBox.SetActive(false);
+				messageText.SetActive(false);
+				Time.timeScale = 1;
 			}
 			else
 			{
 				Cursor.lockState = CursorLockMode.None;
 				print("unlocking cursor");
-				// close pause menu
+				// open pause menu
 				//Time.timeScale = 1;
 				//print(Time.timeScale);
 				//Time.fixedDeltaTime = 0f;
+				pauseScreen.SetActive(true);
+				if (hint.activeInHierarchy)
+				{
+					hintWasActive = true;
+					hint.SetActive(false);
+				}
+				Time.timeScale = 0;
 			}
 		}
 	}
@@ -226,7 +265,11 @@ public class Player : MonoBehaviour
 		{
 			print("OH SHOOT YOU DIED L");
 			// DO SMTH
+			SceneManager.LoadScene("DeathScreen");
 		}
+		float healthPct = 1- health / 100;
+		healthBg.transform.localScale = new Vector3(healthPct * 80, 80, 80);
+		healthBg.transform.localPosition = new Vector3(-380-120*healthPct, 300, 0);
 	}
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class RocketDash : Body
 {
@@ -11,11 +12,14 @@ public class RocketDash : Body
 	private float slowdown = .2f;
 	private Player player;
 	private float acceleration = .3f;
+	private ParticleSystem particles;
 
 	public override void init(Player player)
 	{
 		body = player.player;
 		this.player = player;
+		particles = GetComponentInChildren<ParticleSystem>();
+		particles.Stop();
 	}
 
 	void FixedUpdate()
@@ -35,7 +39,8 @@ public class RocketDash : Body
 				if(timer < 2.2f)
 				{
 					player.canWalk = true;
-					if(timer <= 0)
+					particles.Stop();
+					if (timer <= 0)
 					{
 						onCooldown = false;
 						// visual?
@@ -51,6 +56,7 @@ public class RocketDash : Body
 		onCooldown = true;
 		timer = cooldown;
 		player.canWalk = false;
+		particles.Play();
 		print("zoom");
 	}
 }

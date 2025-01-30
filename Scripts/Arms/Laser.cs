@@ -10,7 +10,7 @@ public class Laser : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        body.velocity = transform.forward * speed;
+        body.velocity = -transform.right* speed;
     }
 
     // Update is called once per frame
